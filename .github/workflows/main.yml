@@ -1,0 +1,37 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - development
+      - release
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout репозитория
+        uses: actions/checkout@v4
+
+      - name: Установка зависимостей
+        run: |
+          npm install  # Для проектов на Node.js
+          # pip install -r requirements.txt  # Для Python
+          # mvn install  # Для Java
+
+      - name: Запуск тестов
+        run: |
+          npm test  # Запуск тестов для Node.js
+          # pytest  # Для Python
+          # mvn test  # Для Java
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Деплой приложения
+        run: echo "Развертывание приложения..."
